@@ -5,5 +5,6 @@ export default function Home() {
     <div className="text-red-500 font-bold">
       Tailwind test
     </div>
+
   );
 }
