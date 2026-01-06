@@ -1,30 +1,64 @@
-const BASE = "https://acharyaprashant.org/api/v2/uni";
-
 export async function fetchCategories() {
-  const res = await fetch(`${BASE}/category`, {
-    cache: "force-cache",
-  });
-  return res.json();
+  const res = await fetch(
+    "https://acharyaprashant.org/api/v2/uni/category",
+    { cache: "force-cache" }
+  );
+
+  if (!res.ok) {
+    console.error("Category API error", res.status);
+    return [];
+  }
+
+  const json = await res.json();
+
+  return Array.isArray(json?.categories) ? json.categories : [];
 }
 
-export async function fetchVideos(params: {
-  language: number;
+
+
+
+
+export async function fetchVideos({
+  language,
+  categoryId,
+  orderBy,
+  year,
+}: {
+  language: number | null;
+  categoryId: string | null;
   orderBy: number;
-  category?: number;
-  year?: number;
+  year: number | null;
 }) {
-  const query = new URLSearchParams({
+  const params = new URLSearchParams({
     limit: "50",
     offset: "0",
-    language: String(params.language),
-    orderBy: String(params.orderBy),
-    ...(params.category && { category: String(params.category) }),
-    ...(params.year && { year: String(params.year) }),
+    orderBy: String(orderBy),
   });
 
-  const res = await fetch(`${BASE}/yt?${query}`, {
-    cache: "no-store",
-  });
+  if (year !== null) {
+    params.append("publishedAtYear", String(year));
+  }
 
-  return res.json();
+  if (language === 1 || language === 2) {
+    params.append("language", String(language));
+  }
+
+  if (typeof categoryId === "string" && categoryId.length > 0) {
+    params.append("categoryId", categoryId);
+  }
+
+  console.log("YT API:", params.toString());
+
+  const res = await fetch(
+    `https://acharyaprashant.org/api/v2/uni/yt?${params.toString()}`,
+    { cache: "no-store" }
+  );
+
+  if (!res.ok) {
+    console.error("YT API error", res.status);
+    return [];
+  }
+
+  const json = await res.json();
+  return Array.isArray(json.data) ? json.data : [];
 }
