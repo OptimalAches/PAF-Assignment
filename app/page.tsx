@@ -1,11 +1,15 @@
-import Image from "next/image";
+import PageHeader from "@/components/header/PageHeader";
+import TopicNav from "@/components/topic-nav/TopicNav";
+import FilterBar from "@/components/filters/FilterBar";
+import VideoGrid from "@/components/videos/VideoGrid";
 
-export default function Home() {
+export default function Page() {
   return (
-    <div className="text-red-500 font-bold">
-      Tailwind v4 OK
-    </div>
-
-
+    <main>
+      <PageHeader />
+      <TopicNav />
+      <FilterBar />
+      <VideoGrid />
+    </main>
   );
 }
