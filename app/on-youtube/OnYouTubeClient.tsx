@@ -42,18 +42,20 @@ export default function Page() {
     return v ? Number(v) : null;
   });
 
+  
+  const [loading, setLoading] = useState(false);
 
 
   useEffect(() => {
-  const params = new URLSearchParams();
+    const params = new URLSearchParams();
 
-  if (language !== null) params.set("language", String(language));
-  if (orderBy !== 1) params.set("orderBy", String(orderBy));
-  if (categoryId !== null) params.set("categoryId", categoryId);
-  if (year !== null) params.set("year", String(year));
+    if (language !== null) params.set("language", String(language));
+    if (orderBy !== 1) params.set("orderBy", String(orderBy));
+    if (categoryId !== null) params.set("categoryId", categoryId);
+    if (year !== null) params.set("year", String(year));
 
-  router.replace(`?${params.toString()}`, { scroll: false });
-}, [language, orderBy, categoryId, year]);
+    router.replace(`?${params.toString()}`, { scroll: false });
+  }, [language, orderBy, categoryId, year]);
 
 
 
@@ -76,25 +78,38 @@ export default function Page() {
   // ---------- RESET FILTERS ----------
 
   const resetFilters = () => {
-  setLanguage(null);
-  setCategoryId(null);
-  setOrderBy(1);
-  setYear(null);
+    setLanguage(null);
+    setCategoryId(null);
+    setOrderBy(1);
+    setYear(null);
 
-  router.replace("?", { scroll: false });
-};
+    router.replace("?", { scroll: false });
+  };
 
 
 
-  // ---------- FETCH VIDEOS (ON FILTER CHANGE) ----------
+  // ---------- FETCH VIDEOS (ON FILTER CHANGE) ---------
 
   useEffect(() => {
+    let active = true;
+    setLoading(true);
+
     fetchVideos({
       language,
       categoryId,
       orderBy,
       year,
-    }).then(setVideos);
+    })
+      .then((data) => {
+        if (active) setVideos(data);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
   }, [language, categoryId, orderBy, year]);
 
 
@@ -104,15 +119,15 @@ export default function Page() {
   return (
 
     <main className="bg-white">
-      <div className="mx-auto max-w-[1536px]">
+      <div className="mx-auto max-w-384">
         {/* ===== Header ===== */}
-        <div className="px-7 tab:px-6 laptop:px-[72px]">
+        <div className="px-3 md:px-10 tab:px-6 laptop:px-[68px]">
           <PageHeader language={language} setLanguage={setLanguage} />
         </div>
 
         {/* ===== Topic Nav + Filters (NOT sticky) ===== */}
-        <div className="pt-4">
-          <div className="px-7 tab:px-6 laptop:px-[72px]">
+        <div className="">
+          <div className="px-3 md:px-10 tab:px-6 laptop:px-[68px]">
             <TopicNav
               categories={categories}
               active={categoryId}
@@ -124,7 +139,7 @@ export default function Page() {
           {/* Divider */}
           <div className="h-[0.5px] w-full bg-[#D8DCDF]" />
 
-          <div className="px-7 tab:px-6 laptop:px-[72px]">
+          <div className="px-3 md:px-10 tab:px-6 laptop:px-[68px]">
             <FilterBar
               orderBy={orderBy}
               setOrderBy={setOrderBy}
@@ -134,9 +149,15 @@ export default function Page() {
           </div>
         </div>
 
-        {/* ===== Videos ===== */}
-        <div className="px-7 tab:px-6 laptop:px-[72px]">
-          {videos.length === 0 ? (
+        {/* ===== Videos Render===== */}
+        <div className="px-3 md:px-10 tab:px-6 laptop:px-[68px]">
+          {loading ? (
+            /* ===== Loader ===== */
+            <div className="flex items-center justify-center py-24">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#CACED1] border-t-[#1F2022]" />
+            </div>
+          ) : videos.length === 0 ? (
+            /* ===== No Results ===== */
             <div className="flex flex-col items-center justify-center py-24 text-center">
               {/* Icon */}
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-[#ECEFF1]">
@@ -170,8 +191,10 @@ export default function Page() {
               </button>
             </div>
           ) : (
+            /* ===== Videos ===== */
             <VideoGrid videos={videos} />
           )}
+
         </div>
       </div>
     </main>

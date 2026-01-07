@@ -23,7 +23,7 @@ export default function LanguageToggle({
       {/* BUTTONS */}
       <button
         onClick={() => onChange(null)}
-        className={`z-10 flex h-full w-[38px] lg:w-12 items-center justify-center
+        className={`z-10 flex h-full w-9.5 lg:w-12 items-center justify-center
           ${activeIndex === 0 ? "text-white" : "text-[#404040] hover:bg-[#F6F8F9]"}`}
       >
         ALL
@@ -33,7 +33,7 @@ export default function LanguageToggle({
 
       <button
         onClick={() => onChange(2)}
-        className={`z-10 flex h-full w-[38px] lg:w-12 items-center justify-center
+        className={`z-10 flex h-full w-9.5 lg:w-12 items-center justify-center
           ${activeIndex === 1 ? "text-white" : "text-[#404040] hover:bg-[#F6F8F9]"}`}
       >
         ENG
@@ -43,7 +43,7 @@ export default function LanguageToggle({
 
       <button
         onClick={() => onChange(1)}
-        className={`z-10 flex h-full w-[38px] lg:w-12 items-center justify-center
+        className={`z-10 flex h-full w-9.5 lg:w-12 items-center justify-center
           ${activeIndex === 2 ? "text-white" : "text-[#404040] hover:bg-[#F6F8F9]"}`}
       >
         हिन्दी

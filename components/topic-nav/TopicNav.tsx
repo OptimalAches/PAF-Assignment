@@ -55,7 +55,7 @@ export default function TopicNav({
             {/* LEFT GRADIENT */}
             {canScrollLeft && (
                 <div className="pointer-events-none absolute left-10 top-0 bottom-0 z-10 w-24
-                          bg-gradient-to-r from-white to-transparent opacity-0
+                          bg-linear-to-r from-white to-transparent opacity-0
                           group-hover:opacity-100" />
             )}
 
@@ -85,7 +85,7 @@ export default function TopicNav({
                 {/* All Videos */}
                 <button
                     onClick={() => setActive(null)}
-                    className={`pb-2.5 whitespace-nowrap text-base leading-[1.25]
+                    className={`pb-2.5 whitespace-nowrap text-base leading-tight
                         tracking-[0.005em] border-b-2 ${active === null
                             ? "border-black font-bold text-black"
                             : "border-transparent text-[#505153] hover:text-[#767677]"
@@ -98,7 +98,7 @@ export default function TopicNav({
                     <button
                         key={cat.id}
                         onClick={() => setActive(cat.id)}
-                        className={`pb-2.5 whitespace-nowrap text-base leading-[1.25]
+                        className={`pb-2.5 whitespace-nowrap text-base leading-tight
                           tracking-[0.005em] border-b-2 ${active === cat.id
                                 ? "border-black font-bold text-black"
                                 : "border-transparent text-[#505153] hover:text-[#767677]"
@@ -112,7 +112,7 @@ export default function TopicNav({
             {/* RIGHT GRADIENT */}
             {canScrollRight && (
                 <div className="pointer-events-none absolute right-10 top-0 bottom-0 z-10 w-24
-                          bg-gradient-to-l from-white to-transparent opacity-0
+                          bg-linear-to-l from-white to-transparent opacity-0
                           group-hover:opacity-100" />
             )}
 
