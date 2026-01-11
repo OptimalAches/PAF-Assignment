@@ -50,7 +50,7 @@ export default function TopicNav({
 
     return (
 
-        <div className="group relative font-medium flex w-full items-center">
+        <div className="group relative pt-3 font-medium flex w-full items-center">
 
             {/* LEFT GRADIENT */}
             {canScrollLeft && (

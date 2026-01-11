@@ -12,7 +12,7 @@ import { fetchCategories, fetchVideos } from "@/lib/api";
 
 export default function Page() {
 
-  // ---------- DATA ----------
+  // ---------- DATA --------------
 
   const [categories, setCategories] = useState<any[]>([]);
   const [videos, setVideos] = useState<any[]>([]);
@@ -42,7 +42,7 @@ export default function Page() {
     return v ? Number(v) : null;
   });
 
-  
+
   const [loading, setLoading] = useState(false);
 
 
@@ -120,35 +120,35 @@ export default function Page() {
 
     <main className="bg-white">
       <div className="mx-auto max-w-384">
-        {/* ===== Header ===== */}
-        <div className="px-3 md:px-10 tab:px-6 laptop:px-[68px]">
-          <PageHeader language={language} setLanguage={setLanguage} />
-        </div>
-
-        {/* ===== Topic Nav + Filters (NOT sticky) ===== */}
-        <div className="">
+        
+          {/* ===== Header ===== */}
           <div className="px-3 md:px-10 tab:px-6 laptop:px-[68px]">
-            <TopicNav
-              categories={categories}
-              active={categoryId}
-              setActive={setCategoryId}
-            // language={language}
-            />
+            <PageHeader language={language} setLanguage={setLanguage} />
           </div>
 
-          {/* Divider */}
-          <div className="h-[0.5px] w-full bg-[#D8DCDF]" />
+          {/* ===== Topic Nav + Filters ===== */}
+          <div className="sticky top-0 z-10 bg-white">
+            <div className="px-3 md:px-10 tab:px-6 laptop:px-[68px]">
+              <TopicNav
+                categories={categories}
+                active={categoryId}
+                setActive={setCategoryId}
+              />
+            </div>
 
-          <div className="px-3 md:px-10 tab:px-6 laptop:px-[68px]">
-            <FilterBar
-              orderBy={orderBy}
-              setOrderBy={setOrderBy}
-              year={year}
-              setYear={setYear}
-            />
+            {/* Divider */}
+            <div className="h-[0.5px] w-full bg-[#D8DCDF]" />
+
+            <div className="px-3 md:px-10 tab:px-6 laptop:px-[68px]">
+              <FilterBar
+                orderBy={orderBy}
+                setOrderBy={setOrderBy}
+                year={year}
+                setYear={setYear}
+              />
+            </div>
           </div>
-        </div>
-
+        
         {/* ===== Videos Render===== */}
         <div className="px-3 md:px-10 tab:px-6 laptop:px-[68px]">
           {loading ? (
